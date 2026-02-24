@@ -1,0 +1,7 @@
+{
+  "week": 1,
+  "reveal_date": "2026-03-01",
+  "last_line": "    return sorted(data, key=lambda x: x['entropy'], reverse=True)",
+  "contributor_count": 0,
+  "contributors": []
+}

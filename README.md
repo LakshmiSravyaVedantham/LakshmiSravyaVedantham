@@ -1,3 +1,30 @@
+<!-- CORPSE_START -->
+## 🧩 Exquisite Corpse
+
+> Collaborative blind-coding. Each player sees only the **last line** written before them.
+> The full program is hidden and revealed every Sunday. No one knows what it becomes.
+
+### ✍️ Your Prompt
+
+Continue from this exact line:
+
+```python
+    return sorted(data, key=lambda x: x['entropy'], reverse=True)
+```
+
+**[▶ Play now — open an Issue](https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/new?template=corpse-contribution.yml)**
+
+Rules: write 3+ lines of Python continuing from above. No peeking at `game/corpus.b64`.
+
+### This Round
+🧩 Contributors: **0** · 📅 Reveal in: **5 days** (Sunday Mar 1)
+
+### Hall of Reveals
+_(First reveal coming Sunday!)_
+<!-- CORPSE_END -->
+
+---
+
 <h1 align="center">Hi, I'm Sravya Vedantham</h1>
 <h3 align="center">AI/ML Engineer | Full-Stack Developer | Building Intelligent Applications</h3>
 

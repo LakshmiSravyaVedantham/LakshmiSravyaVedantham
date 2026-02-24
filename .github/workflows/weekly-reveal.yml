@@ -1,0 +1,38 @@
+name: Weekly Corpse Reveal
+
+on:
+  schedule:
+    - cron: "0 12 * * 0"  # Every Sunday at noon UTC
+  workflow_dispatch:       # Allow manual trigger
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  reveal:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run weekly reveal
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/weekly_reveal.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add game/state.json game/corpus.b64 README.md game/history/
+          git diff --cached --quiet || git commit -m "chore: weekly reveal and game reset (week $(python -c 'import json; s=json.load(open(\"game/state.json\")); print(s[\"week\"]-1)'))"
+          git push
