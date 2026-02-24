@@ -4,7 +4,7 @@
 > Each week, we collectively build an AI personality — one trait at a time.
 > Every Sunday, the bot's full character is revealed. Anyone can contribute.
 
-### This Week's Bot: BOT-001
+### This Week's Bot: BOT-002
 
 **Traits so far:**
 _(none yet — be the first to shape this week's bot!)_
