@@ -1,27 +1,25 @@
-<!-- CORPSE_START -->
-## 🧩 Exquisite Corpse
+<!-- BOT_START -->
+## 🤖 Build-a-Bot
 
-> Collaborative blind-coding. Each player sees only the **last line** written before them.
-> The full program is hidden and revealed every Sunday. No one knows what it becomes.
+> Each week, we collectively build an AI personality — one trait at a time.
+> Every Sunday, the bot's full character is revealed. Anyone can contribute.
 
-### ✍️ Your Prompt
+### This Week's Bot: BOT-001
 
-Continue from this exact line:
+**Traits so far:**
+_(none yet — be the first to shape this week's bot!)_
 
-```python
-    raise ValueError(f"Expected convergence at step {step}, got {delta:.6f}")
-```
+**[▶ Add a trait — open an Issue](https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/new?template=bot-trait.yml)**
 
-**[▶ Play now — open an Issue](https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/new?template=corpse-contribution.yml)**
-
-Rules: write 3+ lines of Python continuing from above. No peeking at `game/corpus.b64`.
+> Examples: *"Speaks like a Victorian novelist"* · *"Obsessed with bread"* ·
+> *"Ends every reply with an unexpected plot twist"* · *"Refuses to use the letter E"*
 
 ### This Round
-🧩 Contributors: **0** · 📅 Reveal in: **5 days** (Sunday Mar 1)
+🎭 Traits: **0** · 📅 Reveal in: **5 days** (Sunday Mar 1)
 
-### Hall of Reveals
-- [Week 1 reveal](https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/2) — 1 contributor(s)
-<!-- CORPSE_END -->
+### Hall of Bots
+_(First bot reveal coming Sunday!)_
+<!-- BOT_END -->
 
 ---
 

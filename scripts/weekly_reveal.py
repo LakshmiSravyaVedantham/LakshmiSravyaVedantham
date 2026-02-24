@@ -1,259 +1,379 @@
 #!/usr/bin/env python3
 """
-weekly_reveal.py — triggered every Sunday at noon UTC via GitHub Actions schedule.
-Reveals the accumulated corpus, saves history, resets game state for next week.
+weekly_reveal.py — Weekly Build-a-Bot reveal script.
+
+Triggered every Sunday at noon UTC (or manually via workflow_dispatch).
+
+- Loads game/state.json
+- If no traits: posts a "no traits" issue, resets state, done
+- If traits exist:
+  - Generates bot profile (Claude API if ANTHROPIC_API_KEY set, else template)
+  - Saves to game/history/week_NNN.md
+  - Posts reveal GitHub Issue
+  - Appends to hall_of_bots, resets for next week
+  - Regenerates README
 """
-import base64
+
 import json
 import os
+import re
 import sys
-from datetime import date, datetime, timedelta
-
 import urllib.request
 import urllib.error
+from datetime import date, timedelta
+from pathlib import Path
 
 
-REPO = "LakshmiSravyaVedantham/LakshmiSravyaVedantham"
-STATE_FILE = "game/state.json"
-CORPUS_FILE = "game/corpus.b64"
-README_FILE = "README.md"
-HISTORY_DIR = "game/history"
-ISSUE_URL = f"https://github.com/{REPO}/issues/new?template=corpse-contribution.yml"
+REPO = os.environ.get("GITHUB_REPOSITORY", "")
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
-SEED_LINES = [
-    "    return sorted(data, key=lambda x: x['entropy'], reverse=True)",
-    "    raise ValueError(f\"Expected convergence at step {step}, got {delta:.6f}\")",
-    "    yield from self._traverse(node.left, depth + 1)",
-    "    self.cache[key] = (result, time.time() + self.ttl)",
-    "    return np.dot(weights, features) + self.bias",
-    "    if not self.visited.add(node): return",
-    "    loss = -torch.mean(torch.log(probs + 1e-8))",
-    "    return {k: v for k, v in zip(self.keys, row) if v is not None}",
-    "    signal = butter_bandpass_filter(raw, 0.5, 40, fs=256)",
-    "    assert len(queue) == 0, f\"Unprocessed items: {queue}\"",
-]
+STATE_PATH = "game/state.json"
+README_PATH = "README.md"
+HISTORY_DIR = Path("game/history")
 
 
-def github_api(method, path, body=None, token=None):
-    url = f"https://api.github.com{path}"
-    data = json.dumps(body).encode() if body else None
+# ---------------------------------------------------------------------------
+# GitHub API helper
+# ---------------------------------------------------------------------------
+
+def github_api(method: str, path: str, data: dict | None = None) -> dict:
+    url = f"https://api.github.com/repos/{REPO}{path}"
     headers = {
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "exquisite-corpse-bot",
+        "Authorization": f"token {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json",
+        "Content-Type": "application/json",
+        "User-Agent": "build-a-bot-action",
     }
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-    req = urllib.request.Request(url, data=data, headers=headers, method=method)
+    body = json.dumps(data).encode() if data else None
+    req = urllib.request.Request(url, data=body, headers=headers, method=method)
     try:
         with urllib.request.urlopen(req) as resp:
-            return json.loads(resp.read())
+            return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
-        print(f"GitHub API error {e.code}: {e.read().decode()}", file=sys.stderr)
-        raise
+        print(f"GitHub API error {e.code} on {method} {path}: {e.read().decode()}")
+        return {}
 
 
-def next_sunday():
+# ---------------------------------------------------------------------------
+# Date helpers
+# ---------------------------------------------------------------------------
+
+def next_sunday() -> date:
     today = date.today()
-    days_ahead = 6 - today.weekday()  # Sunday = 6
+    days_ahead = 6 - today.weekday()  # Monday=0, Sunday=6
     if days_ahead <= 0:
         days_ahead += 7
-    return (today + timedelta(days=days_ahead)).strftime("%Y-%m-%d")
+    return today + timedelta(days=days_ahead)
 
 
-def days_until(reveal_date_str):
-    reveal = datetime.strptime(reveal_date_str, "%Y-%m-%d").date()
-    delta = (reveal - date.today()).days
-    return max(0, delta)
+def days_until(target: str) -> int:
+    return max(0, (date.fromisoformat(target) - date.today()).days)
 
 
-def format_reveal_date(reveal_date_str):
-    reveal = datetime.strptime(reveal_date_str, "%Y-%m-%d")
-    return reveal.strftime("%A %b %-d")
+def format_reveal_date(reveal_date: str) -> str:
+    d = date.fromisoformat(reveal_date)
+    return d.strftime("%A %b %-d")
 
 
-def build_game_section(state):
-    last_line = state["last_line"]
-    count = state["contributor_count"]
-    reveal_date = state["reveal_date"]
-    days = days_until(reveal_date)
-    reveal_label = format_reveal_date(reveal_date)
+# ---------------------------------------------------------------------------
+# Reveal content generation
+# ---------------------------------------------------------------------------
 
-    if state.get("hall_of_reveals"):
-        hall_lines = []
-        for entry in state["hall_of_reveals"]:
-            hall_lines.append(
-                f"- [Week {entry['week']} reveal]({entry['issue_url']}) — {entry['contributors']} contributor(s)"
-            )
-        hall_section = "\n".join(hall_lines)
+def _extract_keywords(traits: list[str]) -> list[str]:
+    """Pull descriptive words from traits for the template summary."""
+    words = []
+    skip = {"a", "an", "the", "is", "are", "was", "were", "be",
+            "been", "being", "and", "or", "but", "in", "on",
+            "at", "to", "for", "of", "with", "by", "from"}
+    for trait in traits:
+        for word in trait.split():
+            clean = re.sub(r"[^a-zA-Z'-]", "", word).lower()
+            if clean and clean not in skip and len(clean) > 3:
+                words.append(clean)
+                break  # one keyword per trait
+    return words
+
+
+def generate_template_reveal(bot_name: str, traits: list[str]) -> str:
+    """Build a fun template-based personality card (no API key needed)."""
+    numbered = "\n".join(f"{i + 1}. {t}" for i, t in enumerate(traits))
+    keywords = _extract_keywords(traits)
+
+    if len(traits) == 0:
+        summary_combined = "mysterious and undefined"
+    elif len(traits) == 1:
+        summary_combined = traits[0].lower()
     else:
-        hall_section = "_(First reveal coming Sunday!)_"
+        summary_combined = ", ".join(keywords) if keywords else "complex and multifaceted"
 
-    return f"""<!-- CORPSE_START -->
-## 🧩 Exquisite Corpse
+    first_trait = traits[0] if traits else "something unexpected"
+    second_trait = traits[1] if len(traits) > 1 else "surprise you in every interaction"
 
-> Collaborative blind-coding. Each player sees only the **last line** written before them.
-> The full program is hidden and revealed every Sunday. No one knows what it becomes.
+    return f"""# 🤖 {bot_name} — The Collective Personality
 
-### ✍️ Your Prompt
+**Traits contributed by the community:**
+{numbered}
 
-Continue from this exact line:
+**Personality Summary:**
+{bot_name} would be described as: {summary_combined}.
+Approach them expecting: {first_trait}. Don't be surprised if they: {second_trait}.
 
-```python
-{last_line}
-```
+*Want real AI-powered bot responses? The repo owner can add `ANTHROPIC_API_KEY`
+as a GitHub Actions secret to unlock live Claude responses every Sunday.*"""
 
-**[▶ Play now — open an Issue]({ISSUE_URL})**
 
-Rules: write 3+ lines of Python continuing from above. No peeking at `game/corpus.b64`.
+def generate_claude_reveal(bot_name: str, traits: list[str]) -> str:
+    """Call Claude API to generate a bot personality profile with Q&A."""
+    numbered_traits = "\n".join(f"{i + 1}. {t}" for i, t in enumerate(traits))
+    system_prompt = (
+        f"You are {bot_name}, an AI personality built collectively by an online community. "
+        f"Your personality is defined entirely by these traits:\n{numbered_traits}\n\n"
+        "Stay fully in character. Be creative, consistent, and entertaining."
+    )
+    user_prompt = (
+        f"You are {bot_name}. Answer these 5 questions in character, "
+        "based on the personality traits above.\n\n"
+        "1. How would you introduce yourself?\n"
+        "2. What is your philosophy on life?\n"
+        "3. What are you most passionate about?\n"
+        "4. What is your biggest quirk?\n"
+        "5. Give someone a piece of advice."
+    )
+
+    payload = {
+        "model": "claude-haiku-4-5-20251001",
+        "max_tokens": 1024,
+        "system": system_prompt,
+        "messages": [{"role": "user", "content": user_prompt}],
+    }
+    headers = {
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+        "User-Agent": "build-a-bot-action",
+    }
+    data = json.dumps(payload).encode()
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=data,
+        headers=headers,
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req) as resp:
+            result = json.loads(resp.read().decode())
+            qa_text = result["content"][0]["text"]
+    except Exception as e:
+        print(f"Claude API call failed: {e}. Falling back to template.")
+        return generate_template_reveal(bot_name, traits)
+
+    numbered = "\n".join(f"{i + 1}. {t}" for i, t in enumerate(traits))
+    return f"""# 🤖 {bot_name} — The Collective Personality
+
+**Traits contributed by the community:**
+{numbered}
+
+**{bot_name} speaks:**
+
+{qa_text}
+
+*Powered by Claude (claude-haiku-4-5-20251001) + community creativity.*"""
+
+
+# ---------------------------------------------------------------------------
+# README helpers
+# ---------------------------------------------------------------------------
+
+def build_game_section(state: dict) -> str:
+    bot_name = state["bot_name"]
+    traits = state["traits"]
+    contributor_count = state["contributor_count"]
+    reveal_date = state["reveal_date"]
+    hall_of_bots = state.get("hall_of_bots", [])
+
+    days_left = days_until(reveal_date)
+    reveal_display = format_reveal_date(reveal_date)
+
+    if traits:
+        traits_md = "\n".join(f"{i + 1}. {t}" for i, t in enumerate(traits))
+    else:
+        traits_md = "_(none yet — be the first to shape this week's bot!)_"
+
+    issue_url = (
+        f"https://github.com/{REPO}/issues/new?template=bot-trait.yml"
+        if REPO
+        else "https://github.com/issues/new?template=bot-trait.yml"
+    )
+
+    if hall_of_bots:
+        hall_lines = "\n".join(
+            f"- [{entry['bot_name']} reveal]({entry['issue_url']}) — "
+            f"{entry['contributors']} contributor(s)"
+            for entry in hall_of_bots
+        )
+    else:
+        hall_lines = "_(First bot reveal coming Sunday!)_"
+
+    return f"""## 🤖 Build-a-Bot
+
+> Each week, we collectively build an AI personality — one trait at a time.
+> Every Sunday, the bot's full character is revealed. Anyone can contribute.
+
+### This Week's Bot: {bot_name}
+
+**Traits so far:**
+{traits_md}
+
+**[▶ Add a trait — open an Issue]({issue_url})**
+
+> Examples: *"Speaks like a Victorian novelist"* · *"Obsessed with bread"* ·
+> *"Ends every reply with an unexpected plot twist"* · *"Refuses to use the letter E"*
 
 ### This Round
-🧩 Contributors: **{count}** · 📅 Reveal in: **{days} day{"s" if days != 1 else ""}** ({reveal_label})
+🎭 Traits: **{contributor_count}** · 📅 Reveal in: **{days_left} days** ({reveal_display})
 
-### Hall of Reveals
-{hall_section}
-<!-- CORPSE_END -->"""
+### Hall of Bots
+{hall_lines}"""
 
 
-def update_readme(game_section):
-    import re
-    with open(README_FILE, "r") as f:
+def update_readme(state: dict) -> None:
+    with open(README_PATH, "r", encoding="utf-8") as f:
         content = f.read()
 
-    pattern = r"<!-- CORPSE_START -->.*?<!-- CORPSE_END -->"
-    if re.search(pattern, content, re.DOTALL):
-        new_content = re.sub(pattern, game_section, content, flags=re.DOTALL)
-    else:
-        new_content = game_section + "\n\n---\n\n" + content
-
-    with open(README_FILE, "w") as f:
+    new_section = build_game_section(state)
+    new_content = re.sub(
+        r"<!-- BOT_START -->.*?<!-- BOT_END -->",
+        f"<!-- BOT_START -->\n{new_section}\n<!-- BOT_END -->",
+        content,
+        flags=re.DOTALL,
+    )
+    with open(README_PATH, "w", encoding="utf-8") as f:
         f.write(new_content)
 
 
-def main():
-    token = os.environ.get("GITHUB_TOKEN")
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
-    with open(STATE_FILE, "r") as f:
+def main() -> None:
+    # Load state
+    with open(STATE_PATH, "r", encoding="utf-8") as f:
         state = json.load(f)
 
     week = state["week"]
-    contributors = state["contributors"]
+    bot_name = state["bot_name"]
+    traits = state["traits"]
     contributor_count = state["contributor_count"]
+    contributors = state.get("contributors", [])
 
-    with open(CORPUS_FILE, "r") as f:
-        corpus_b64 = f.read().strip()
-
+    # --- No contributions this week ---
     if contributor_count == 0:
-        print(f"No contributions for week {week}. Resetting with a new seed.")
-        new_seed_idx = week % len(SEED_LINES)
-        new_seed = SEED_LINES[new_seed_idx]
+        print(f"No traits this week for {bot_name}. Posting notice and resetting.")
+        next_sun = next_sunday()
+        next_week = week + 1
+        next_bot = f"BOT-{next_week:03d}"
 
-        # Post a "no contributions" issue
-        try:
-            github_api(
-                "POST", f"/repos/{REPO}/issues",
-                {
-                    "title": f"🎭 Week {week} — No contributions received",
-                    "body": (
-                        f"No one contributed to the Exquisite Corpse this week.\n\n"
-                        f"The game resets now. Come play next week!\n\n"
-                        f"**New prompt:**\n```python\n{new_seed}\n```\n\n"
-                        f"[▶ Play now]({ISSUE_URL})"
-                    ),
-                    "labels": [],
-                },
-                token,
-            )
-        except Exception as e:
-            print(f"Warning: could not post no-contribution issue: {e}", file=sys.stderr)
+        github_api("POST", "/issues", {
+            "title": f"🤖 {bot_name} — No Traits This Week",
+            "body": (
+                f"No one contributed a trait for **{bot_name}** this week. 😢\n\n"
+                f"Next week's bot is **{next_bot}** — be the first to shape its personality!\n\n"
+                f"📅 Next reveal: **{next_sun.strftime('%A, %B %-d')}**\n\n"
+                f"[▶ Add the first trait](https://github.com/{REPO}/issues/new?template=bot-trait.yml)"
+            ),
+            "labels": [],
+        })
 
+        # Reset state
+        state["week"] = next_week
+        state["bot_name"] = next_bot
+        state["reveal_date"] = next_sun.isoformat()
+        state["traits"] = []
+        state["contributor_count"] = 0
+        state["contributors"] = []
+
+        with open(STATE_PATH, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2)
+            f.write("\n")
+
+        update_readme(state)
+        print("Reset complete.")
+        return
+
+    # --- Generate reveal content ---
+    print(f"Generating reveal for {bot_name} with {contributor_count} trait(s)...")
+    if ANTHROPIC_API_KEY:
+        print("ANTHROPIC_API_KEY found — using Claude API.")
+        reveal_content = generate_claude_reveal(bot_name, traits)
     else:
-        # Decode corpus
-        corpus = base64.b64decode(corpus_b64).decode("utf-8") if corpus_b64 else ""
+        print("No ANTHROPIC_API_KEY — using template reveal.")
+        reveal_content = generate_template_reveal(bot_name, traits)
 
-        # Save history file
-        history_path = f"{HISTORY_DIR}/week_{week:03d}.py"
-        header_lines = [
-            f"# Exquisite Corpse — Week {week}",
-            f"# Revealed: {date.today().isoformat()}",
-            f"# Contributors ({contributor_count}): {', '.join('@' + c for c in contributors)}",
-            "#" + "-" * 60,
-            "",
-        ]
-        history_content = "\n".join(header_lines) + corpus
+    # Build reveal header with metadata
+    contributor_list = ", ".join(f"@{c}" for c in contributors)
+    today_str = date.today().strftime("%Y-%m-%d")
+    full_reveal = (
+        f"<!-- Build-a-Bot Reveal — Week {week} — {today_str} -->\n"
+        f"<!-- Contributors ({contributor_count}): {contributor_list} -->\n\n"
+        f"{reveal_content}"
+    )
 
-        with open(history_path, "w") as f:
-            f.write(history_content)
+    # Save to history
+    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+    history_path = HISTORY_DIR / f"week_{week:03d}.md"
+    with open(history_path, "w", encoding="utf-8") as f:
+        f.write(full_reveal)
+    print(f"Saved reveal to {history_path}")
 
-        print(f"Saved history to {history_path}")
+    # Determine issue title from first trait keywords
+    first_trait_words = traits[0].split()[:4] if traits else ["the", "bot", "is", "revealed"]
+    title_snippet = " ".join(first_trait_words)
+    issue_title = f"🤖 {bot_name} Reveal — \"{title_snippet}...\""
 
-        # Create reveal issue
-        history_url = f"https://github.com/{REPO}/blob/main/{history_path}"
-        issue_body = (
-            f"# 🎭 Week {week} Reveal — The Accidental Program\n\n"
-            f"**{contributor_count} contributor(s):** {', '.join('@' + c for c in contributors)}\n\n"
-            f"No single person designed this. Each player saw only the last line.\n\n"
-            "```python\n"
-            f"{corpus}"
-            "```\n\n"
-            f"[📁 View saved file]({history_url})\n\n"
-            "---\n"
-            "_The game resets now. A new prompt will appear in the README. Come play next week!_"
-        )
+    # Post reveal issue
+    issue_body = (
+        f"## 🤖 {bot_name} — Weekly Bot Reveal\n\n"
+        f"**Week {week}** · Contributors: {contributor_list}\n\n"
+        f"---\n\n"
+        f"{reveal_content}\n\n"
+        f"---\n\n"
+        f"*Thanks to everyone who contributed a trait this week!*\n"
+        f"*Next week's bot: **BOT-{week + 1:03d}** — "
+        f"[add the first trait](https://github.com/{REPO}/issues/new?template=bot-trait.yml)*"
+    )
+    reveal_issue = github_api("POST", "/issues", {
+        "title": issue_title,
+        "body": issue_body,
+        "labels": [],
+    })
+    reveal_url = reveal_issue.get("html_url", "")
+    print(f"Posted reveal issue: {reveal_url}")
 
-        try:
-            result = github_api(
-                "POST", f"/repos/{REPO}/issues",
-                {
-                    "title": f"🎭 Week {week} Reveal — The Accidental Program",
-                    "body": issue_body,
-                    "labels": [],
-                },
-                token,
-            )
-            reveal_issue_url = result.get("html_url", "")
-            print(f"Posted reveal issue: {reveal_issue_url}")
-        except Exception as e:
-            print(f"Warning: could not post reveal issue: {e}", file=sys.stderr)
-            reveal_issue_url = ""
+    # --- Update hall_of_bots and reset state ---
+    next_week = week + 1
+    next_sun = next_sunday()
+    next_bot = f"BOT-{next_week:03d}"
 
-        # Update hall of reveals in state
-        hall_entry = {
-            "week": week,
-            "issue_url": reveal_issue_url,
-            "contributors": contributor_count,
-        }
-        if "hall_of_reveals" not in state:
-            state["hall_of_reveals"] = []
-        state["hall_of_reveals"].append(hall_entry)
-
-        new_seed_idx = week % len(SEED_LINES)
-        new_seed = SEED_LINES[new_seed_idx]
-
-    # Reset state for next week
-    state["week"] = week + 1
-    state["reveal_date"] = next_sunday()
-    state["last_line"] = new_seed
+    state["hall_of_bots"].append({
+        "week": week,
+        "bot_name": bot_name,
+        "issue_url": reveal_url,
+        "contributors": contributor_count,
+    })
+    state["week"] = next_week
+    state["bot_name"] = next_bot
+    state["reveal_date"] = next_sun.isoformat()
+    state["traits"] = []
     state["contributor_count"] = 0
     state["contributors"] = []
 
-    # Reset corpus to new seed
-    new_corpus_b64 = base64.b64encode((new_seed + "\n").encode()).decode("ascii")
-
-    with open(CORPUS_FILE, "w") as f:
-        f.write(new_corpus_b64)
-
-    with open(STATE_FILE, "w") as f:
+    with open(STATE_PATH, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2)
         f.write("\n")
 
-    # Regenerate README
-    game_section = build_game_section(state)
-    update_readme(game_section)
-
-    print(f"✅ Week {week} revealed. Game reset to week {week + 1}.")
-    print(f"   New seed: {new_seed}")
-    print(f"   Next reveal: {state['reveal_date']}")
+    update_readme(state)
+    print(f"State reset to {next_bot}, reveal date {next_sun.isoformat()}.")
 
 
 if __name__ == "__main__":

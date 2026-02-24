@@ -1,14 +1,9 @@
 {
-  "week": 2,
+  "week": 1,
   "reveal_date": "2026-03-01",
-  "last_line": "    raise ValueError(f\"Expected convergence at step {step}, got {delta:.6f}\")",
+  "bot_name": "BOT-001",
+  "traits": [],
   "contributor_count": 0,
   "contributors": [],
-  "hall_of_reveals": [
-    {
-      "week": 1,
-      "issue_url": "https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/2",
-      "contributors": 1
-    }
-  ]
+  "hall_of_bots": []
 }

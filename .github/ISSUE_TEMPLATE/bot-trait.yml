@@ -1,0 +1,38 @@
+name: "🤖 Add a Bot Trait"
+description: "What personality trait should this week's bot have?"
+title: "trait: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Add a personality trait to this week's bot!
+
+        Each week we collectively build an AI personality — one trait at a time.
+        Every Sunday, the bot's full character is revealed as a "Bot Profile" card.
+        **Anyone can contribute. No coding required.**
+
+        > **Rules:** One trait per person per week. Keep it creative and fun!
+
+  - type: textarea
+    id: trait
+    attributes:
+      label: Your trait
+      description: Describe one personality trait for this week's bot. Be creative!
+      placeholder: |
+        Examples:
+        • Speaks like a Victorian novelist
+        • Obsessed with bread
+        • Ends every reply with an unexpected plot twist
+        • Refuses to use the letter E
+        • Always answers questions with more questions
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: "This is a genuine personality trait (not spam or offensive)"
+          required: true
