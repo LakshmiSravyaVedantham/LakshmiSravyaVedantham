@@ -15,37 +15,6 @@
   <a href="https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/2048/"><img src="game/2048/preview.svg" width="48%" alt="Play 2048"/></a>
 </p>
 
----
-
-<details>
-<summary><b>📂 Projects worth checking out</b></summary>
-<br>
-
-**[Legal Lens](https://github.com/LakshmiSravyaVedantham/legal-lens)** — Local RAG system for legal documents: semantic search, clause finder, Q&A.
-`TypeScript` `RAG` `AI`
-
-**[RAG Chatbot](https://github.com/LakshmiSravyaVedantham/RAG-Based-Chatbot-with-Streamlit)** — Upload any document (PDF, CSV, DOCX) and chat with it using retrieval-augmented generation.
-`Python` `LangChain` `Streamlit`
-
-**[EEG Neural Signal Classifier](https://github.com/LakshmiSravyaVedantham/EEG)** — Classifies brain states (rest, movement, visual stimulus) from neural signals.
-`Python` `ML` `Neuroscience`
-
-**[Music Therapy AI](https://github.com/LakshmiSravyaVedantham/Music-therapy)** — Turns health data into personalised music therapy recommendations.
-`TypeScript` `Health-Tech` `AI`
-
-**[Coherence](https://github.com/LakshmiSravyaVedantham/Coherence)** — Measures physiological synchronisation during group activities in real-time.
-`TypeScript` `Real-time` `Health-Tech`
-
-**[Smart Doc Search](https://github.com/LakshmiSravyaVedantham/smart-doc-search)** — Natural language document search with source citations.
-`JavaScript` `RAG` `NLP`
-
-**[TripPlanner](https://github.com/LakshmiSravyaVedantham/TripPlanner)** — AI trip planner with 3D visuals and storytelling.
-`Next.js` `Three.js` `AI`
-
-**[PromptForge](https://github.com/LakshmiSravyaVedantham/promptforge)** — Generate full-stack apps in 60 seconds from a single prompt.
-`Python` `AI`
-
-</details>
 
 ---
 
