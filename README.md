@@ -29,25 +29,28 @@ _(First bot reveal coming Sunday!)_
 **What does this print?**
 
 ```python
-def append_to(item, lst=[]):
-    lst.append(item)
-    return lst
+class Counter:
+    count = 0
+    def increment(self):
+        self.count += 1
 
-print(append_to(1))
-print(append_to(2))
+c1 = Counter()
+c1.increment()
+print(Counter.count)
+print(c1.count)
 ```
 
 <details>
 <summary>💡 Reveal answer</summary>
 
-**Answer:** `[1]`
-`[1, 2]`
+**Answer:** `0`
+`1`
 
-Default argument values are evaluated **once** when the function is defined, not each call. The same list object is reused across calls — a classic Python gotcha. Fix: use `lst=None` and set `lst = []` inside.
+`self.count += 1` reads the class variable (`0`), adds 1, then **assigns to the instance** — creating a new instance variable. The class variable `Counter.count` remains unchanged at `0`.
 
 </details>
 
-<sub>Puzzle 1 of 25 · Rotates daily · February 24, 2026</sub>
+<sub>Puzzle 6 of 25 · Rotates daily · February 24, 2026</sub>
 <!-- PUZZLE_END -->
 
 ---
