@@ -9,7 +9,7 @@
 Continue from this exact line:
 
 ```python
-    top_keys = [k for k, _ in ranked[:threshold]]
+    raise ValueError(f"Expected convergence at step {step}, got {delta:.6f}")
 ```
 
 **[▶ Play now — open an Issue](https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/new?template=corpse-contribution.yml)**
@@ -17,10 +17,10 @@ Continue from this exact line:
 Rules: write 3+ lines of Python continuing from above. No peeking at `game/corpus.b64`.
 
 ### This Round
-🧩 Contributors: **1** · 📅 Reveal in: **5 days** (Sunday Mar 1)
+🧩 Contributors: **0** · 📅 Reveal in: **5 days** (Sunday Mar 1)
 
 ### Hall of Reveals
-_(First reveal coming Sunday!)_
+- [Week 1 reveal](https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/2) — 1 contributor(s)
 <!-- CORPSE_END -->
 
 ---
