@@ -23,6 +23,43 @@ _(First bot reveal coming Sunday!)_
 
 ---
 
+<!-- PUZZLE_START -->
+## 🧩 Daily Dev Puzzle
+
+**What does this print?**
+
+```python
+def append_to(item, lst=[]):
+    lst.append(item)
+    return lst
+
+print(append_to(1))
+print(append_to(2))
+```
+
+<details>
+<summary>💡 Reveal answer</summary>
+
+**Answer:** `[1]`
+`[1, 2]`
+
+Default argument values are evaluated **once** when the function is defined, not each call. The same list object is reused across calls — a classic Python gotcha. Fix: use `lst=None` and set `lst = []` inside.
+
+</details>
+
+<sub>Puzzle 1 of 25 · Rotates daily · February 24, 2026</sub>
+<!-- PUZZLE_END -->
+
+---
+
+## 🎮 Code Runner
+
+> An endless runner — jump over the bugs. No sign-in needed, just play.
+
+**[▶ Play Code Runner →](https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/runner/)**
+
+---
+
 <h1 align="center">Hi, I'm Sravya Vedantham</h1>
 <h3 align="center">AI/ML Engineer | Full-Stack Developer | Building Intelligent Applications</h3>
 

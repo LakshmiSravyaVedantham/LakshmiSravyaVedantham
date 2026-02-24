@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Code Runner — @LakshmiSravyaVedantham</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      gap: 10px;
+      padding: 16px;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
+    }
+
+    header { text-align: center; }
+
+    h1 {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      letter-spacing: 8px;
+      color: #58a6ff;
+      text-shadow: 0 0 18px rgba(88,166,255,0.5);
+    }
+
+    .sub {
+      font-size: 0.7rem;
+      color: #30363d;
+      letter-spacing: 3px;
+      margin-top: 3px;
+    }
+
+    #wrap {
+      position: relative;
+      border: 1px solid #21262d;
+      box-shadow: 0 0 30px rgba(88,166,255,0.08), inset 0 0 30px rgba(0,0,0,0.4);
+    }
+
+    canvas { display: block; }
+
+    #hud {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .hud-item { font-size: 0.78rem; color: #484f58; letter-spacing: 2px; }
+    .hud-item span { color: #c9d1d9; }
+
+    #hint {
+      font-size: 0.68rem;
+      color: #30363d;
+      letter-spacing: 2px;
+      min-height: 1em;
+      transition: opacity 0.3s;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 12px;
+      font-size: 0.65rem;
+      color: #21262d;
+    }
+    footer a { color: #30363d; text-decoration: none; }
+    footer a:hover { color: #58a6ff; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CODE RUNNER</h1>
+  <div class="sub">// jump over the bugs</div>
+</header>
+
+<div id="wrap">
+  <canvas id="c"></canvas>
+</div>
+
+<div id="hud">
+  <div class="hud-item">SCORE <span id="score-el">00000</span></div>
+  <div class="hud-item">BEST&nbsp; <span id="best-el">00000</span></div>
+</div>
+
+<div id="hint">SPACE · ↑ · TAP &nbsp;to start</div>
+
+<footer><a href="https://github.com/LakshmiSravyaVedantham">← back to profile</a></footer>
+
+<script>
+(() => {
+  'use strict';
+
+  // ─── Canvas setup ────────────────────────────────────────────────────────
+  const canvas  = document.getElementById('c');
+  const ctx     = canvas.getContext('2d');
+  const scoreEl = document.getElementById('score-el');
+  const bestEl  = document.getElementById('best-el');
+  const hintEl  = document.getElementById('hint');
+  const wrap    = document.getElementById('wrap');
+
+  const COLS = 28;   // logical grid columns (unused but handy reference)
+  const GROUND_RATIO = 0.74;   // ground y as fraction of canvas height
+
+  let W, H, GROUND, CELL;
+
+  function resize() {
+    W     = Math.min(window.innerWidth - 32, 680);
+    H     = Math.round(W * 0.30);
+    CELL  = W / COLS;
+    GROUND = Math.round(H * GROUND_RATIO);
+    canvas.width  = W;
+    canvas.height = H;
+    wrap.style.width  = W + 'px';
+    if (state === 'idle') drawIdle();
+  }
+
+  // ─── Constants ───────────────────────────────────────────────────────────
+  const GRAVITY   = 0.52;
+  const JUMP_V    = -11.5;
+  const MAX_JUMPS = 2;
+  const MIN_SPEED = 4.2;
+  const MAX_SPEED = 10;
+
+  // ─── Obstacle definitions ────────────────────────────────────────────────
+  const OBS_TYPES = [
+    { wR: 0.60, hR: 1.6,  color: '#f85149', border: '#ff7b72', label: 'BUG'  },
+    { wR: 1.10, hR: 1.0,  color: '#d29922', border: '#e3b341', label: '404'  },
+    { wR: 0.55, hR: 2.2,  color: '#bc8cff', border: '#d2a8ff', label: 'ERR'  },
+    { wR: 0.75, hR: 1.35, color: '#3fb950', border: '#56d364', label: 'NaN'  },
+  ];
+
+  // ─── Code fragments (scrolling BG) ───────────────────────────────────────
+  const CODE_FRAGS = [
+    'import torch', 'loss.backward()', 'model.train()', 'F.softmax(',
+    'nn.Linear(', 'optimizer.zero_grad()', 'return logits', 'torch.no_grad()',
+    'def forward(', 'x = self.fc(x)', 'model.eval()', 'print(acc)',
+    'for epoch in', 'batch_size=32', 'learning_rate', 'nn.ReLU()',
+  ];
+
+  // ─── State ───────────────────────────────────────────────────────────────
+  let state      = 'idle';   // 'idle' | 'running' | 'dead'
+  let score      = 0;
+  let best       = parseInt(localStorage.getItem('cr_best') || '0');
+  let raf        = null;
+  let frame      = 0;
+  let speed      = MIN_SPEED;
+  let nextObs    = 90;
+
+  // Player
+  const P = { x:0, y:0, w:0, h:0, vy:0, jumps:MAX_JUMPS, legFrame:0, legTick:0 };
+
+  // Arrays
+  let obstacles  = [];
+  let particles  = [];
+  let bgCode     = [];
+
+  // ─── Init / reset ────────────────────────────────────────────────────────
+  function initBgCode() {
+    bgCode = Array.from({ length: 7 }, () => ({
+      x:     Math.random() * W,
+      y:     Math.random() * (GROUND - 20) + 8,
+      text:  CODE_FRAGS[Math.floor(Math.random() * CODE_FRAGS.length)],
+      spd:   0.25 + Math.random() * 0.35,
+      alpha: 0.03 + Math.random() * 0.04,
+      size:  10 + Math.floor(Math.random() * 5),
+    }));
+  }
+
+  function resetPlayer() {
+    P.w = Math.round(CELL * 1.0);
+    P.h = Math.round(CELL * 1.45);
+    P.x = Math.round(W * 0.13);
+    P.y = GROUND - P.h;
+    P.vy = 0;
+    P.jumps = MAX_JUMPS;
+    P.legFrame = 0;
+    P.legTick  = 0;
+  }
+
+  function startGame() {
+    state      = 'running';
+    score      = 0;
+    frame      = 0;
+    speed      = MIN_SPEED;
+    nextObs    = 90;
+    obstacles  = [];
+    particles  = [];
+    initBgCode();
+    resetPlayer();
+    hintEl.style.opacity = '0';
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(loop);
+  }
+
+  // ─── Input ───────────────────────────────────────────────────────────────
+  function handleJump() {
+    if (state === 'idle' || state === 'dead') { startGame(); return; }
+    if (P.jumps > 0) {
+      P.vy    = JUMP_V;
+      P.jumps -= 1;
+      burst(P.x + P.w / 2, P.y + P.h, '#58a6ff', 6);
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (['Space','ArrowUp','KeyW'].includes(e.code)) {
+      e.preventDefault();
+      handleJump();
+    }
+  });
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); handleJump(); }, { passive: false });
+  canvas.addEventListener('mousedown',  () => handleJump());
+
+  // ─── Particles ───────────────────────────────────────────────────────────
+  function burst(x, y, color, n) {
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x, y,
+        vx:    (Math.random() - 0.5) * 5,
+        vy:    -Math.random() * 4 - 1,
+        r:     1.5 + Math.random() * 2.5,
+        alpha: 1,
+        color,
+      });
+    }
+  }
+
+  function updateParticles() {
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.18;
+      p.alpha -= 0.035;
+    }
+    particles = particles.filter(p => p.alpha > 0);
+  }
+
+  // ─── Obstacle logic ──────────────────────────────────────────────────────
+  function spawnObs() {
+    const t  = OBS_TYPES[Math.floor(Math.random() * OBS_TYPES.length)];
+    const ow = Math.round(CELL * t.wR);
+    const oh = Math.round(CELL * t.hR);
+    obstacles.push({
+      x:      W + 10,
+      y:      GROUND - oh,
+      w:      ow,
+      h:      oh,
+      color:  t.color,
+      border: t.border,
+      label:  t.label,
+    });
+  }
+
+  // ─── Main loop ───────────────────────────────────────────────────────────
+  function loop() {
+    update();
+    draw();
+    if (state === 'running') raf = requestAnimationFrame(loop);
+  }
+
+  function update() {
+    frame++;
+    score = Math.floor(frame / 7);
+    scoreEl.textContent = String(score).padStart(5, '0');
+    speed = Math.min(MAX_SPEED, MIN_SPEED + score * 0.012);
+
+    // Player physics
+    P.vy += GRAVITY;
+    P.y  += P.vy;
+    if (P.y >= GROUND - P.h) {
+      P.y     = GROUND - P.h;
+      P.vy    = 0;
+      P.jumps = MAX_JUMPS;
+    }
+
+    // Leg animation (only on ground)
+    if (P.y >= GROUND - P.h - 1) {
+      P.legTick++;
+      if (P.legTick >= Math.max(4, 9 - Math.floor(speed))) {
+        P.legFrame = (P.legFrame + 1) % 2;
+        P.legTick  = 0;
+      }
+    }
+
+    // Obstacles
+    nextObs--;
+    if (nextObs <= 0) {
+      spawnObs();
+      const gap = Math.max(42, Math.floor(90 - score * 0.08) + Math.floor(Math.random() * 30));
+      nextObs = gap;
+    }
+    for (const o of obstacles) o.x -= speed;
+    obstacles = obstacles.filter(o => o.x + o.w > -5);
+
+    // Collision (slightly inset hitbox)
+    for (const o of obstacles) {
+      if (P.x + 5      < o.x + o.w  &&
+          P.x + P.w - 5 > o.x       &&
+          P.y + 5        < o.y + o.h &&
+          P.y + P.h - 2  > o.y) {
+        die();
+        return;
+      }
+    }
+
+    // BG code
+    for (const b of bgCode) {
+      b.x -= b.spd;
+      if (b.x < -120) {
+        b.x    = W + 20;
+        b.text = CODE_FRAGS[Math.floor(Math.random() * CODE_FRAGS.length)];
+      }
+    }
+
+    updateParticles();
+  }
+
+  // ─── Death ───────────────────────────────────────────────────────────────
+  function die() {
+    state = 'dead';
+    burst(P.x + P.w / 2, P.y + P.h / 2, '#f85149', 14);
+    if (score > best) {
+      best = score;
+      localStorage.setItem('cr_best', best);
+      bestEl.textContent = String(best).padStart(5, '0');
+    }
+    draw();
+    updateParticles();
+    drawDeathScreen();
+    setTimeout(() => {
+      hintEl.style.opacity = '1';
+      hintEl.textContent   = 'SPACE · TAP &nbsp;to retry';
+    }, 400);
+  }
+
+  // ─── Drawing ─────────────────────────────────────────────────────────────
+  function draw() {
+    // Sky
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, W, H);
+
+    // BG code fragments
+    ctx.save();
+    for (const b of bgCode) {
+      ctx.globalAlpha = b.alpha;
+      ctx.fillStyle   = '#3fb950';
+      ctx.font        = `${b.size}px 'Courier New', monospace`;
+      ctx.fillText(b.text, b.x, b.y);
+    }
+    ctx.restore();
+
+    // Ground line
+    ctx.strokeStyle = '#21262d';
+    ctx.lineWidth   = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, GROUND);
+    ctx.lineTo(W, GROUND);
+    ctx.stroke();
+
+    // Ground dashes
+    ctx.fillStyle = '#161b22';
+    const dashOff = (frame * speed * 0.3) % 20;
+    for (let x = -dashOff; x < W; x += 20)
+      ctx.fillRect(x, GROUND + 2, 12, 1);
+
+    // Obstacles
+    for (const o of obstacles) drawObs(o);
+
+    // Player
+    drawPlayer();
+
+    // Particles
+    ctx.save();
+    for (const p of particles) {
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle   = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // HUD score inside canvas (top-right)
+    if (state === 'running') {
+      ctx.fillStyle = '#21262d';
+      ctx.font      = `${Math.round(CELL * 0.55)}px 'Courier New', monospace`;
+      ctx.textAlign = 'right';
+      ctx.fillText(String(score).padStart(5,'0'), W - 8, Math.round(CELL * 0.65));
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function drawObs(o) {
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.25)';
+    ctx.fillRect(o.x + 3, GROUND, o.w, 3);
+
+    // Body
+    ctx.fillStyle = o.color;
+    ctx.fillRect(o.x, o.y, o.w, o.h);
+
+    // Top highlight
+    ctx.fillStyle = o.border;
+    ctx.fillRect(o.x, o.y, o.w, 2);
+    ctx.fillRect(o.x, o.y, 2, o.h);
+
+    // Label
+    ctx.fillStyle   = 'rgba(0,0,0,0.6)';
+    ctx.font        = `bold ${Math.max(7, Math.round(CELL * 0.38))}px 'Courier New', monospace`;
+    ctx.textAlign   = 'center';
+    ctx.fillText(o.label, o.x + o.w / 2, o.y + o.h / 2 + 3);
+    ctx.textAlign   = 'left';
+  }
+
+  function drawPlayer() {
+    const x = Math.round(P.x), y = Math.round(P.y);
+    const w = P.w, h = P.h;
+    const airborne = P.y < GROUND - P.h - 1;
+
+    ctx.shadowColor = '#58a6ff';
+    ctx.shadowBlur  = airborne ? 14 : 6;
+
+    // --- Head ---
+    const headH = Math.round(h * 0.33);
+    const headW = Math.round(w * 0.78);
+    const headX = x + Math.round((w - headW) / 2);
+
+    ctx.fillStyle = '#58a6ff';
+    ctx.fillRect(headX, y, headW, headH);
+
+    // Visor bar
+    const vW = Math.round(headW * 0.72);
+    const vH = Math.round(headH * 0.45);
+    const vX = headX + Math.round((headW - vW) / 2);
+    const vY = y + Math.round(headH * 0.28);
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(vX, vY, vW, vH);
+
+    // Visor glow dot
+    ctx.fillStyle = '#39d353';
+    ctx.shadowColor = '#39d353';
+    ctx.shadowBlur  = 4;
+    ctx.fillRect(vX + 2, vY + 1, Math.round(vW * 0.30), vH - 2);
+    ctx.shadowBlur = 6;
+
+    // --- Torso ---
+    const torsoY = y + headH + 1;
+    const torsoH = Math.round(h * 0.38);
+    ctx.fillStyle  = '#388bfd';
+    ctx.shadowBlur = 0;
+    ctx.fillRect(x + 2, torsoY, w - 4, torsoH);
+
+    // Chest detail
+    ctx.fillStyle = '#58a6ff';
+    const cdS = Math.round(w * 0.20);
+    ctx.fillRect(x + 4,     torsoY + 3, cdS, cdS);
+    ctx.fillRect(x + w - 4 - cdS, torsoY + 3, cdS, cdS);
+
+    // --- Legs ---
+    const legY = torsoY + torsoH;
+    const legH = h - headH - torsoH - 1;
+    const lW   = Math.round(w * 0.33);
+
+    ctx.fillStyle  = '#1f6feb';
+    ctx.shadowBlur = 0;
+
+    if (airborne) {
+      // Tucked
+      ctx.fillRect(x + 2,         legY, lW, Math.round(legH * 0.6));
+      ctx.fillRect(x + w - 2 - lW, legY, lW, Math.round(legH * 0.6));
+    } else if (P.legFrame === 0) {
+      ctx.fillRect(x + 2,          legY, lW, legH);
+      ctx.fillRect(x + w - 2 - lW, legY, Math.round(legH * 0.6), Math.round(lW * 0.8));
+    } else {
+      ctx.fillRect(x + 2,          legY, lW, Math.round(legH * 0.6));
+      ctx.fillRect(x + w - 2 - lW, legY, lW, legH);
+    }
+
+    ctx.shadowBlur = 0;
+  }
+
+  function drawDeathScreen() {
+    // Dim
+    ctx.fillStyle = 'rgba(13,17,23,0.78)';
+    ctx.fillRect(0, 0, W, H);
+
+    // Particles one last time
+    ctx.save();
+    for (const p of particles) {
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle   = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    ctx.textAlign   = 'center';
+    ctx.fillStyle   = '#f85149';
+    ctx.font        = `bold ${Math.round(CELL * 0.9)}px 'Courier New', monospace`;
+    ctx.shadowColor = '#f85149';
+    ctx.shadowBlur  = 10;
+    ctx.fillText('GAME OVER', W / 2, H / 2 - Math.round(CELL * 0.5));
+    ctx.shadowBlur  = 0;
+
+    ctx.fillStyle   = '#484f58';
+    ctx.font        = `${Math.round(CELL * 0.52)}px 'Courier New', monospace`;
+    ctx.fillText(`score: ${score}   ·   best: ${best}`, W / 2, H / 2 + Math.round(CELL * 0.4));
+    ctx.textAlign   = 'left';
+  }
+
+  function drawIdle() {
+    resetPlayer();
+    draw();
+    // START overlay
+    ctx.fillStyle = 'rgba(13,17,23,0.6)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.textAlign   = 'center';
+    ctx.fillStyle   = '#58a6ff';
+    ctx.font        = `bold ${Math.round(CELL * 0.85)}px 'Courier New', monospace`;
+    ctx.shadowColor = '#58a6ff';
+    ctx.shadowBlur  = 12;
+    ctx.fillText('PRESS START', W / 2, H / 2 - Math.round(CELL * 0.3));
+    ctx.shadowBlur  = 0;
+    ctx.fillStyle   = '#30363d';
+    ctx.font        = `${Math.round(CELL * 0.48)}px 'Courier New', monospace`;
+    ctx.fillText('jump over the bugs · double jump allowed', W / 2, H / 2 + Math.round(CELL * 0.55));
+    ctx.textAlign   = 'left';
+  }
+
+  // ─── Boot ────────────────────────────────────────────────────────────────
+  bestEl.textContent  = String(best).padStart(5, '0');
+  scoreEl.textContent = '00000';
+
+  resize();
+  initBgCode();
+  drawIdle();
+
+  window.addEventListener('resize', resize);
+})();
+</script>
+</body>
+</html>
