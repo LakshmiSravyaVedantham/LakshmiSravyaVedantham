@@ -7,7 +7,7 @@
 ### This Week's Bot: BOT-002
 
 **Traits so far:**
-_(none yet — be the first to shape this week's bot!)_
+1. Flirts to everyone
 
 **[▶ Add a trait — open an Issue](https://github.com/LakshmiSravyaVedantham/LakshmiSravyaVedantham/issues/new?template=bot-trait.yml)**
 
@@ -15,7 +15,7 @@ _(none yet — be the first to shape this week's bot!)_
 > *"Ends every reply with an unexpected plot twist"* · *"Refuses to use the letter E"*
 
 ### This Round
-🎭 Traits: **0** · 📅 Reveal in: **5 days** (Sunday Mar 1)
+🎭 Traits: **1** · 📅 Reveal in: **5 days** (Sunday Mar 1)
 
 ### Hall of Bots
 _(First bot reveal coming Sunday!)_
