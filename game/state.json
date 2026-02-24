@@ -1,7 +1,9 @@
 {
   "week": 1,
   "reveal_date": "2026-03-01",
-  "last_line": "    return sorted(data, key=lambda x: x['entropy'], reverse=True)",
-  "contributor_count": 0,
-  "contributors": []
+  "last_line": "    top_keys = [k for k, _ in ranked[:threshold]]",
+  "contributor_count": 1,
+  "contributors": [
+    "LakshmiSravyaVedantham"
+  ]
 }
