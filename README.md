@@ -1,18 +1,10 @@
-![header](https://capsule-render.vercel.app/api?type=venom&color=0:0d1117,50:1a1b3a,100:0d1117&height=180&section=header&text=Sravya%20Vedantham&fontSize=55&fontColor=58A6FF&animation=twinkling&fontAlignY=45&stroke=58A6FF&strokeWidth=1)
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24,25&height=200&section=header&text=Sravya%20Vedantham&fontSize=50&fontColor=ffffff&animation=twinkling&fontAlignY=38&desc=Developer%20%C2%B7%20Builder%20%C2%B7%20AI%20Explorer&descAlignY=58&descSize=18&descColor=a5d8ff)
 
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=18&duration=2000&pause=1200&color=58A6FF&center=true&vCenter=true&multiline=false&width=600&lines=%24+pip+install+git-personality;+→+ARCHETYPE%3A+Chaotic+Good+%E2%98%91;%24+secret-time-machine+--repo+.;+→+%F0%9F%94%B4+API+key+found+in+commit+a4f8c2d;%24+hallucination-grep+gpt-output.txt;+→+%E2%9A%A0%EF%B8%8F+4+functions+don't+exist+in+your+codebase;%24+token-diet+system-prompt.txt;+→+saved+72%25+of+tokens+%28%24380%2Fmonth%29;%24+model-diff+%22explain+recursion%22;+→+GPT-4+and+Claude+disagree+on+3+things)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=I+build+tools+that+reveal+what+hides.;Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;Your+prompts+are+72%25+filler.;GPT-4+and+Claude+disagree.+Here%27s+where.)](https://git.io/typing-svg)
 
-</div>
-
-<br>
-
-<div align="center">
-
-**I build Python tools that reveal what your code, your AI, and your git history are hiding.**
-
-<br>
+<br/>
 
 <a href="https://dev.to/lakshmisravyavedantham"><img src="https://img.shields.io/badge/Dev.to-18%20articles-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" /></a>
 &nbsp;
@@ -26,8 +18,8 @@
 
 ## pip install \<what-is-your-code-hiding\>
 
-| tool | what it reveals | install |
-|------|----------------|---------|
+| tool | what it reveals | |
+|------|----------------|--|
 | [**git-personality**](https://github.com/LakshmiSravyaVedantham/git-personality) | your D&D alignment from commit history | [![](https://img.shields.io/pypi/v/git-personality?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/git-personality/) |
 | [**hallucination-grep**](https://github.com/LakshmiSravyaVedantham/hallucination-grep) | functions your LLM invented that don't exist | [![](https://img.shields.io/pypi/v/hallucination-grep?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/hallucination-grep/) |
 | [**secret-time-machine**](https://github.com/LakshmiSravyaVedantham/secret-time-machine) | API keys you "deleted" 2 years ago | [![](https://img.shields.io/pypi/v/secret-time-machine?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/secret-time-machine/) |
@@ -41,10 +33,10 @@
 
 ## writing
 
-18 articles on [Dev.to](https://dev.to/lakshmisravyavedantham) — all the things I had to build to understand
+18 articles on [Dev.to](https://dev.to/lakshmisravyavedantham) — things I had to build to understand
 
 <details>
-<summary>latest</summary>
+<summary>latest posts</summary>
 
 - [I Built 23andMe for Developers — Mine Said I'm a Chaotic Hacker](https://dev.to/lakshmisravyavedantham/i-built-23andme-for-developers-mine-said-im-a-chaotic-hacker-with-a-velocity-problem-1cph)
 - [I Found an API Key I Deleted 18 Months Ago Still Living in My Git History](https://dev.to/lakshmisravyavedantham/i-found-an-api-key-i-deleted-18-months-ago-still-living-in-my-git-history-1328)
@@ -76,4 +68,4 @@
 
 ---
 
-![footer](https://capsule-render.vercel.app/api?type=venom&color=0:0d1117,50:1a1b3a,100:0d1117&height=100&section=footer&stroke=58A6FF&strokeWidth=1)
+![footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24,25&height=100&section=footer)
