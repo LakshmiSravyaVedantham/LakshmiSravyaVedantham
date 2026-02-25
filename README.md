@@ -1,6 +1,8 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24,25&height=200&section=header&text=Sravya%20Vedantham&fontSize=50&fontColor=ffffff&animation=twinkling&fontAlignY=38&desc=Developer%20%C2%B7%20Builder%20%C2%B7%20AI%20Explorer&descAlignY=58&descSize=18&descColor=a5d8ff)
-
 <div align="center">
+
+<img src="assets/banner.svg" width="100%" alt="Sravya Vedantham — AI/ML Engineer"/>
+
+<br/>
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=I+build+tools+that+reveal+what+hides.;Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;Your+prompts+are+72%25+filler.;GPT-4+and+Claude+disagree.+Here%27s+where.)](https://git.io/typing-svg)
 
@@ -65,7 +67,3 @@
   &nbsp;
   <a href="https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/2048/"><img src="game/2048/preview.svg" width="48%" /></a>
 </div>
-
----
-
-![footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24,25&height=100&section=footer)

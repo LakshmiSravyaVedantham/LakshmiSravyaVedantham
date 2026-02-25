@@ -1,0 +1,96 @@
+<svg width="900" height="200" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#58A6FF"/>
+      <stop offset="100%" style="stop-color:#a5d8ff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="200" fill="url(#bg)"/>
+
+  <!-- Neural network nodes - left side -->
+  <!-- Layer 1 -->
+  <circle cx="60" cy="60" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="60" cy="100" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="60" cy="140" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+
+  <!-- Layer 2 -->
+  <circle cx="120" cy="75" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="120" cy="115" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+
+  <!-- Layer 3 -->
+  <circle cx="180" cy="100" r="6" fill="#58A6FF" opacity="0.3" filter="url(#glow)"/>
+
+  <!-- Connections layer 1 to 2 -->
+  <line x1="65" y1="60" x2="115" y2="75" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="65" y1="60" x2="115" y2="115" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="65" y1="100" x2="115" y2="75" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="65" y1="100" x2="115" y2="115" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="65" y1="140" x2="115" y2="75" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="65" y1="140" x2="115" y2="115" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Connections layer 2 to 3 -->
+  <line x1="125" y1="75" x2="174" y2="100" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="125" y1="115" x2="174" y2="100" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Neural network nodes - right side (mirrored) -->
+  <circle cx="840" cy="60" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="840" cy="100" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="840" cy="140" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="780" cy="75" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="780" cy="115" r="5" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="720" cy="100" r="6" fill="#58A6FF" opacity="0.3" filter="url(#glow)"/>
+  <line x1="835" y1="60" x2="785" y2="75" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="835" y1="60" x2="785" y2="115" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="835" y1="100" x2="785" y2="75" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="835" y1="100" x2="785" y2="115" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="835" y1="140" x2="785" y2="75" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="835" y1="140" x2="785" y2="115" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="775" y1="75" x2="726" y2="100" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+  <line x1="775" y1="115" x2="726" y2="100" stroke="#58A6FF" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Horizontal accent line -->
+  <line x1="200" y1="100" x2="700" y2="100" stroke="url(#accent)" stroke-width="0.5" opacity="0.15"/>
+
+  <!-- Main name -->
+  <text x="450" y="88" font-family="'Courier New', monospace" font-size="38" font-weight="700"
+    fill="url(#accent)" text-anchor="middle" filter="url(#glow)" letter-spacing="4">
+    SRAVYA VEDANTHAM
+  </text>
+
+  <!-- Role line -->
+  <text x="450" y="118" font-family="'Courier New', monospace" font-size="13"
+    fill="#8b949e" text-anchor="middle" letter-spacing="3">
+    AI/ML ENGINEER  ·  DEVELOPER TOOLS  ·  PYTHON
+  </text>
+
+  <!-- Tagline -->
+  <text x="450" y="148" font-family="'Courier New', monospace" font-size="12"
+    fill="#58A6FF" text-anchor="middle" opacity="0.7" letter-spacing="1">
+    building tools that reveal what your code is hiding
+  </text>
+
+  <!-- Top border line -->
+  <line x1="0" y1="1" x2="900" y2="1" stroke="#58A6FF" stroke-width="1" opacity="0.3"/>
+  <!-- Bottom border line -->
+  <line x1="0" y1="199" x2="900" y2="199" stroke="#58A6FF" stroke-width="1" opacity="0.3"/>
+
+  <!-- Animated pulse on center nodes -->
+  <circle cx="180" cy="100" r="6" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.6">
+    <animate attributeName="r" values="6;14;6" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="720" cy="100" r="6" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.6">
+    <animate attributeName="r" values="6;14;6" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+    <animate attributeName="opacity" values="0.6;0;0.6" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+  </circle>
+</svg>
