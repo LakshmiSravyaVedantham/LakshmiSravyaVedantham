@@ -1,30 +1,52 @@
 <div align="center">
-
-<img src="assets/banner.svg" width="100%" alt="Sravya Vedantham — AI/ML Engineer"/>
-
-<br/>
-
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=I+build+tools+that+reveal+what+hides.;Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;Your+prompts+are+72%25+filler.;GPT-4+and+Claude+disagree.+Here%27s+where.)](https://git.io/typing-svg)
+  <img src="assets/banner.svg" width="100%" alt="Sravya Vedantham"/>
+</div>
 
 <br/>
 
-<a href="https://dev.to/lakshmisravyavedantham"><img src="https://img.shields.io/badge/Dev.to-18%20articles-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" /></a>
+<div align="center">
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;Your+prompts+are+72%25+filler.;GPT-4+and+Claude+disagree.+Here%27s+where.)](https://git.io/typing-svg)
+
+<br/>
+
+[![Dev.to](https://img.shields.io/badge/Dev.to-18%20articles-0A0A0A?style=flat-square&logo=devdotto&logoColor=white)](https://dev.to/lakshmisravyavedantham)
 &nbsp;
-<a href="https://www.linkedin.com/in/sravyavedantham/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sravyavedantham/)
 &nbsp;
-<a href="https://sravyavedantham.com"><img src="https://img.shields.io/badge/Portfolio-FF6B6B?style=for-the-badge&logo=google-chrome&logoColor=white" /></a>
+[![Portfolio](https://img.shields.io/badge/Portfolio-sravyavedantham.com-FF6B6B?style=flat-square&logo=google-chrome&logoColor=white)](https://sravyavedantham.com)
 
 </div>
 
 ---
 
-## pip install \<what-is-your-code-hiding\>
+### `>_ IDENTITY`
+
+```yaml
+name     : Sravya Vedantham
+role     : AI/ML Engineer  ·  Developer Tools Builder
+location : United States
+focus    : pip-installable tools that make hidden things visible
+writing  : 18 articles on Dev.to — Python, AI, DevTools
+belief   : "Your code is already telling you something. Most tools just don't listen."
+```
+
+---
+
+### `>_ FLAGSHIP`
+
+> **[secret-time-machine](https://github.com/LakshmiSravyaVedantham/secret-time-machine)** — scans your entire git history for secrets that were committed and "deleted". The key you removed in 2023 is still in commit `a4f8c2d`. This tool finds it.
+>
+> `pip install secret-time-machine`   [![PyPI](https://img.shields.io/pypi/v/secret-time-machine?color=FF6B6B&style=flat-square&label=pypi)](https://pypi.org/project/secret-time-machine/)
+
+---
+
+### `>_ TOOLS`
 
 | tool | what it reveals | |
 |------|----------------|--|
 | [**git-personality**](https://github.com/LakshmiSravyaVedantham/git-personality) | your D&D alignment from commit history | [![](https://img.shields.io/pypi/v/git-personality?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/git-personality/) |
 | [**hallucination-grep**](https://github.com/LakshmiSravyaVedantham/hallucination-grep) | functions your LLM invented that don't exist | [![](https://img.shields.io/pypi/v/hallucination-grep?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/hallucination-grep/) |
-| [**secret-time-machine**](https://github.com/LakshmiSravyaVedantham/secret-time-machine) | API keys you "deleted" 2 years ago | [![](https://img.shields.io/pypi/v/secret-time-machine?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/secret-time-machine/) |
 | [**token-diet**](https://github.com/LakshmiSravyaVedantham/token-diet) | wasted tokens burning your LLM budget | [![](https://img.shields.io/pypi/v/token-diet?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/token-diet/) |
 | [**llm-model-diff**](https://github.com/LakshmiSravyaVedantham/model-diff) | exactly where GPT-4 and Claude disagree | [![](https://img.shields.io/pypi/v/llm-model-diff?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/llm-model-diff/) |
 | [**dev-dna**](https://github.com/LakshmiSravyaVedantham/dev-dna) | your developer archetype from GitHub history | [![](https://img.shields.io/pypi/v/dev-dna?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/dev-dna/) |
@@ -33,12 +55,12 @@
 
 ---
 
-## writing
+### `>_ WRITING`
 
-18 articles on [Dev.to](https://dev.to/lakshmisravyavedantham) — things I had to build to understand
+18 articles · [dev.to/lakshmisravyavedantham](https://dev.to/lakshmisravyavedantham)
 
 <details>
-<summary>latest posts</summary>
+<summary>latest</summary>
 
 - [I Built 23andMe for Developers — Mine Said I'm a Chaotic Hacker](https://dev.to/lakshmisravyavedantham/i-built-23andme-for-developers-mine-said-im-a-chaotic-hacker-with-a-velocity-problem-1cph)
 - [I Found an API Key I Deleted 18 Months Ago Still Living in My Git History](https://dev.to/lakshmisravyavedantham/i-found-an-api-key-i-deleted-18-months-ago-still-living-in-my-git-history-1328)
@@ -50,7 +72,7 @@
 
 ---
 
-## stack
+### `>_ STACK`
 
 <div align="center">
 
@@ -60,10 +82,10 @@
 
 ---
 
-## play
+### `>_ PLAY`
 
 <div align="center">
-  <a href="https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/runner/"><img src="game/runner/preview.svg" width="48%" /></a>
+  <a href="https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/runner/"><img src="game/runner/preview.svg" width="48%"/></a>
   &nbsp;
-  <a href="https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/2048/"><img src="game/2048/preview.svg" width="48%" /></a>
+  <a href="https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/2048/"><img src="game/2048/preview.svg" width="48%"/></a>
 </div>
