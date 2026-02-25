@@ -20,7 +20,7 @@
 
 ---
 
-### `>_ IDENTITY`
+### `IDENTITY`
 
 ```yaml
 name     : Sravya Vedantham
@@ -33,7 +33,7 @@ belief   : "Your code is already telling you something. Most tools just don't li
 
 ---
 
-### `>_ FLAGSHIP`
+### `FLAGSHIP`
 
 > **[secret-time-machine](https://github.com/LakshmiSravyaVedantham/secret-time-machine)** — scans your entire git history for secrets that were committed and "deleted". The key you removed in 2023 is still in commit `a4f8c2d`. This tool finds it.
 >
@@ -41,7 +41,7 @@ belief   : "Your code is already telling you something. Most tools just don't li
 
 ---
 
-### `>_ TOOLS`
+### `TOOLS`
 
 | tool | what it reveals | |
 |------|----------------|--|
@@ -55,7 +55,7 @@ belief   : "Your code is already telling you something. Most tools just don't li
 
 ---
 
-### `>_ WRITING`
+### `WRITING`
 
 18 articles · [dev.to/lakshmisravyavedantham](https://dev.to/lakshmisravyavedantham)
 
@@ -72,7 +72,7 @@ belief   : "Your code is already telling you something. Most tools just don't li
 
 ---
 
-### `>_ STACK`
+### `STACK`
 
 <div align="center">
 
@@ -82,7 +82,7 @@ belief   : "Your code is already telling you something. Most tools just don't li
 
 ---
 
-### `>_ PLAY`
+### `PLAY`
 
 <div align="center">
   <a href="https://LakshmiSravyaVedantham.github.io/LakshmiSravyaVedantham/game/runner/"><img src="game/runner/preview.svg" width="48%"/></a>
