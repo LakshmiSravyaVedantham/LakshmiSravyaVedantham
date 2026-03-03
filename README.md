@@ -6,7 +6,7 @@
 
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;Your+prompts+are+72%25+filler.;GPT-4+and+Claude+disagree.+Here%27s+where.)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;Your+prompts+are+72%25+filler.;Every+AI+conversation+forgets+you.+Not+anymore.;Your+infra+team+speaks+Terraform.+You+speak+English.;Your+codebase+has+a+security+hole.+Claude+found+it.)](https://git.io/typing-svg)
 
 <br/>
 
@@ -37,21 +37,34 @@ belief   : "Your code is already telling you something. Most tools just don't li
 
 > **[secret-time-machine](https://github.com/LakshmiSravyaVedantham/secret-time-machine)** — scans your entire git history for secrets that were committed and "deleted". The key you removed in 2023 is still in commit `a4f8c2d`. This tool finds it.
 >
-> `pip install secret-time-machine`   [![PyPI](https://img.shields.io/pypi/v/secret-time-machine?color=FF6B6B&style=flat-square&label=pypi)](https://pypi.org/project/secret-time-machine/)
+> `pip install secret-time-machine`
+
+---
+
+### `>_ AI INFRASTRUCTURE`
+
+Tools that change how AI agents think, act, and deploy.
+
+| tool | what it does |
+|------|-------------|
+| [**mem-mesh**](https://github.com/LakshmiSravyaVedantham/mem-mesh) | universal AI memory layer — drop-in proxy that gives Claude persistent memory across every conversation |
+| [**guardian**](https://github.com/LakshmiSravyaVedantham/guardian) | autonomous code guardian — Claude agent that scans your repo and opens PRs with fixes for bugs and security holes |
+| [**nlops**](https://github.com/LakshmiSravyaVedantham/nlops) | natural language DevOps — describe infrastructure in plain English, get production-ready Terraform |
+| [**skillforge**](https://github.com/LakshmiSravyaVedantham/skillforge) | AI skill compiler — describe workflows in plain English, get production-ready automated agents |
 
 ---
 
 ### `TOOLS`
 
-| tool | what it reveals | |
-|------|----------------|--|
-| [**git-personality**](https://github.com/LakshmiSravyaVedantham/git-personality) | your D&D alignment from commit history | [![](https://img.shields.io/pypi/v/git-personality?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/git-personality/) |
-| [**hallucination-grep**](https://github.com/LakshmiSravyaVedantham/hallucination-grep) | functions your LLM invented that don't exist | [![](https://img.shields.io/pypi/v/hallucination-grep?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/hallucination-grep/) |
-| [**token-diet**](https://github.com/LakshmiSravyaVedantham/token-diet) | wasted tokens burning your LLM budget | [![](https://img.shields.io/pypi/v/token-diet?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/token-diet/) |
-| [**llm-model-diff**](https://github.com/LakshmiSravyaVedantham/model-diff) | exactly where GPT-4 and Claude disagree | [![](https://img.shields.io/pypi/v/llm-model-diff?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/llm-model-diff/) |
-| [**dev-dna**](https://github.com/LakshmiSravyaVedantham/dev-dna) | your developer archetype from GitHub history | [![](https://img.shields.io/pypi/v/dev-dna?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/dev-dna/) |
-| [**commit-prophet**](https://github.com/LakshmiSravyaVedantham/commit-prophet) | which files will have the next bug | [![](https://img.shields.io/pypi/v/commit-prophet?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/commit-prophet/) |
-| [**vibe-check**](https://github.com/LakshmiSravyaVedantham/vibe-check) | how much of your codebase an AI wrote | [![](https://img.shields.io/pypi/v/vibe-check?color=58A6FF&style=flat-square&label=pypi)](https://pypi.org/project/vibe-check/) |
+| tool | what it reveals |
+|------|----------------|
+| [**git-personality**](https://github.com/LakshmiSravyaVedantham/git-personality) | your D&D alignment from commit history |
+| [**hallucination-grep**](https://github.com/LakshmiSravyaVedantham/hallucination-grep) | functions your LLM invented that don't exist |
+| [**token-diet**](https://github.com/LakshmiSravyaVedantham/token-diet) | wasted tokens burning your LLM budget |
+| [**llm-model-diff**](https://github.com/LakshmiSravyaVedantham/model-diff) | exactly where GPT-4 and Claude disagree |
+| [**dev-dna**](https://github.com/LakshmiSravyaVedantham/dev-dna) | your developer archetype from GitHub history |
+| [**commit-prophet**](https://github.com/LakshmiSravyaVedantham/commit-prophet) | which files will have the next bug |
+| [**vibe-check**](https://github.com/LakshmiSravyaVedantham/vibe-check) | how much of your codebase an AI wrote |
 
 ---
 
