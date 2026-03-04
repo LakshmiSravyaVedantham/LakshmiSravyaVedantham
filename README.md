@@ -12,9 +12,9 @@
 
 [![Dev.to](https://img.shields.io/badge/Dev.to-18%20articles-0A0A0A?style=flat-square&logo=devdotto&logoColor=white)](https://dev.to/lakshmisravyavedantham)
 &nbsp;
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sravyavedantham/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lakshmisravyavedantham/)
 &nbsp;
-[![Portfolio](https://img.shields.io/badge/Portfolio-sravyavedantham.com-0A0A0A?style=flat-square&logo=google-chrome&logoColor=white)](https://sravyavedantham.com)
+[![Portfolio](https://img.shields.io/badge/Portfolio-sravyavedantham.com-0A66C2?style=flat-square&logo=google-chrome&logoColor=white)](https://sravyavedantham.com)
 
 </div>
 
