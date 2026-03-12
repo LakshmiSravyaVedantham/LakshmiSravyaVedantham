@@ -16,7 +16,7 @@
 &nbsp;
 [![Portfolio](https://img.shields.io/badge/Portfolio-sravyavedantham.com-0A66C2?style=flat-square&logo=google-chrome&logoColor=white)](https://sravyavedantham.com)
 &nbsp;
-[![YouTube](https://img.shields.io/badge/YouTube-dumdumhum-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/@dumdumhum)
+[![YouTube](https://img.shields.io/badge/YouTube-dumdumhum-0A0A0A?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/@dumdumhum)
 
 </div>
 
