@@ -6,11 +6,11 @@
 
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=Building+autonomous+AI+agents+that+actually+work.;Your+AI+leaked+an+API+key.+I+built+it+a+bodyguard.;Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;30+articles.+50%2B+repos.+All+open+source.;Multi-agent+orchestration+%E2%80%94+not+a+wrapper.)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=Building+autonomous+AI+agents+that+actually+work.;Your+AI+leaked+an+API+key.+I+built+it+a+bodyguard.;Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;33+articles.+50%2B+repos.+All+open+source.;Multi-agent+orchestration+%E2%80%94+not+a+wrapper.)](https://git.io/typing-svg)
 
 <br/>
 
-[![Dev.to](https://img.shields.io/badge/Dev.to-30%20articles-0A0A0A?style=flat-square&logo=devdotto&logoColor=white)](https://dev.to/lakshmisravyavedantham)
+[![Dev.to](https://img.shields.io/badge/Dev.to-33%20articles-0A0A0A?style=flat-square&logo=devdotto&logoColor=white)](https://dev.to/lakshmisravyavedantham)
 &nbsp;
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lakshmisravyavedantham/)
 &nbsp;
@@ -29,7 +29,7 @@ name     : Sravya Vedantham
 role     : AI Engineer  ·  Agentic AI  ·  Video Generation Research
 location : United States
 focus    : autonomous agents, multi-agent orchestration, AI-powered video pipelines
-writing  : 30 articles on Dev.to — AI, Python, Rust, DevTools
+writing  : 33 articles on Dev.to — AI, Python, Rust, Privacy, DevTools
 status   : open to new ideas & collaborations
 belief   : "Build tools that think for themselves — then open-source them."
 ```
@@ -70,6 +70,10 @@ Tools that change how AI agents think, act, and deploy.
 | [**datawipe**](https://github.com/LakshmiSravyaVedantham/datawipe) | automates GDPR/CCPA right-to-erasure requests for 55+ companies |
 | [**consentmap**](https://github.com/LakshmiSravyaVedantham/consentmap) | privacy policy scanner — plain-English risk summary, no LLM required |
 | [**ai-opt-out**](https://github.com/LakshmiSravyaVedantham/ai-opt-out) | generates opt-out requests to 15 AI companies training on your data |
+| [**trackmap**](https://github.com/LakshmiSravyaVedantham/trackmap) | maps which companies track your browsing — scans history, finds 72 trackers |
+| [**phantom**](https://github.com/LakshmiSravyaVedantham/phantom) | finds ghost accounts on breached services you forgot about |
+| [**leakwatch**](https://github.com/LakshmiSravyaVedantham/leakwatch) | continuous breach monitoring with action tracking and severity scoring |
+| [**privacykit**](https://github.com/LakshmiSravyaVedantham/privacykit) | all three above as a single Rust binary — trackmap + phantom + leakwatch |
 | [**inboxscan**](https://github.com/LakshmiSravyaVedantham/inboxscan) | scans Gmail for forgotten subscriptions burning your money |
 
 ---
@@ -92,16 +96,16 @@ Tools that change how AI agents think, act, and deploy.
 
 ### `WRITING`
 
-30 articles · [dev.to/lakshmisravyavedantham](https://dev.to/lakshmisravyavedantham)
+33 articles · [dev.to/lakshmisravyavedantham](https://dev.to/lakshmisravyavedantham)
 
 <details>
 <summary>latest</summary>
 
+- [Google Can See 78% of Your Browsing History — I Built a Tool to Prove It](https://dev.to/lakshmisravyavedantham/google-can-see-78-of-your-browsing-history-i-built-a-tool-to-prove-it-3mmn)
+- [You Have Accounts on 34 Services You Forgot About. 8 Were Breached.](https://dev.to/lakshmisravyavedantham/you-have-accounts-on-34-services-you-forgot-about-8-were-breached-1751)
+- [I Built a Breach Monitoring System That Runs in Your Terminal](https://dev.to/lakshmisravyavedantham/i-built-a-breach-monitoring-system-that-runs-in-your-terminal-4l8i)
 - [I scanned my Gmail and found $91/mo in subscriptions I completely forgot about](https://dev.to/lakshmisravyavedantham/i-built-a-tool-that-scans-your-gmail-and-finds-every-subscription-you-forgot-about-4gc2)
 - [I built a Claude Code skill that assembles AI teams and runs them in parallel](https://dev.to/lakshmisravyavedantham/i-built-a-claude-code-skill-that-assembles-ai-teams-and-runs-them-in-parallel-50ab)
-- [Type-safe LLM prompts in Rust: catching prompt bugs before they happen](https://dev.to/lakshmisravyavedantham/type-safe-llm-prompts-in-rust-catching-prompt-bugs-before-they-happen-2nnf)
-- [I built the LLM benchmarking tool every AI dev needs (in Rust)](https://dev.to/lakshmisravyavedantham/i-built-the-llm-benchmarking-tool-every-ai-dev-needs-in-rust-d0k)
-- [I rewrote LangChain in 300 lines of Rust (and here's what I found)](https://dev.to/lakshmisravyavedantham/i-rewrote-langchain-in-300-lines-of-rust-and-heres-what-i-found-444n)
 
 </details>
 
