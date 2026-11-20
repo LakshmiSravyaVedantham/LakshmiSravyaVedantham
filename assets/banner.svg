@@ -64,19 +64,19 @@
   <!-- Main name -->
   <text x="450" y="88" font-family="'Courier New', monospace" font-size="38" font-weight="700"
     fill="url(#accent)" text-anchor="middle" filter="url(#glow)" letter-spacing="4">
-    SRAVYA VEDANTHAM
+    LAKSHMI SRAVYA VEDANTHAM
   </text>
 
   <!-- Role line -->
   <text x="450" y="118" font-family="'Courier New', monospace" font-size="13"
     fill="#8b949e" text-anchor="middle" letter-spacing="3">
-    AI/ML ENGINEER  ·  DEVELOPER TOOLS  ·  PYTHON
+    RESEARCH ENGINEER  ·  AI ENGINEER
   </text>
 
   <!-- Tagline -->
   <text x="450" y="148" font-family="'Courier New', monospace" font-size="12"
     fill="#58A6FF" text-anchor="middle" opacity="0.7" letter-spacing="1">
-    building tools that reveal what your code is hiding
+    EEG and multimodal emotion  ·  video generation  ·  probabilistic evaluation
   </text>
 
   <!-- Top border line -->

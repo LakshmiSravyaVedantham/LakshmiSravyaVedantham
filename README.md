@@ -1,20 +1,22 @@
 <div align="center">
-  <img src="assets/banner.svg" width="100%" alt="Sravya Vedantham"/>
+  <img src="assets/banner.svg" width="100%" alt="Lakshmi Sravya Vedantham"/>
 </div>
 
 <br/>
 
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=2200&pause=1000&color=58A6FF&center=true&vCenter=true&width=580&lines=Building+autonomous+AI+agents+that+actually+work.;Your+AI+leaked+an+API+key.+I+built+it+a+bodyguard.;Your+git+history+has+a+D%26D+alignment.;Your+LLM+is+lying+to+you.+I+can+prove+it.;That+API+key+you+deleted%3F+Still+there.;33+articles.+50%2B+repos.+All+open+source.;Multi-agent+orchestration+%E2%80%94+not+a+wrapper.)](https://git.io/typing-svg)
-
-<br/>
-
-[![Dev.to](https://img.shields.io/badge/Dev.to-33%20articles-0A0A0A?style=flat-square&logo=devdotto&logoColor=white)](https://dev.to/lakshmisravyavedantham)
+[![Website](https://img.shields.io/badge/Website-sravyavedantham.com-7b3f63?style=flat-square&logo=google-chrome&logoColor=white)](https://sravyavedantham.com)
 &nbsp;
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0005--7902--2759-A6CE39?style=flat-square&logo=orcid&logoColor=white)](https://orcid.org/0009-0005-7902-2759)
+&nbsp;
+[![Google Scholar](https://img.shields.io/badge/Google%20Scholar-profile-4285F4?style=flat-square&logo=googlescholar&logoColor=white)](https://scholar.google.com/citations?user=QuW8DmgAAAAJ)
+&nbsp;
+[![OpenReview](https://img.shields.io/badge/OpenReview-profile-8C1B13?style=flat-square)](https://openreview.net/profile?id=~Lakshmi_Sravya_Vedantham1)
+<br/>
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lakshmisravyavedantham/)
 &nbsp;
-[![Portfolio](https://img.shields.io/badge/Portfolio-sravyavedantham.com-0A66C2?style=flat-square&logo=google-chrome&logoColor=white)](https://sravyavedantham.com)
+[![Dev.to](https://img.shields.io/badge/Dev.to-57%20articles-0A0A0A?style=flat-square&logo=devdotto&logoColor=white)](https://dev.to/lakshmisravyavedantham)
 &nbsp;
 [![YouTube](https://img.shields.io/badge/YouTube-dumdumhum-0A0A0A?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/@dumdumhum)
 
@@ -25,24 +27,35 @@
 ### `IDENTITY`
 
 ```yaml
-name     : Sravya Vedantham
-role     : AI Engineer  ·  Agentic AI  ·  Video Generation Research
-location : United States
-focus    : autonomous agents, multi-agent orchestration, AI-powered video pipelines
-writing  : 33 articles on Dev.to — AI, Python, Rust, Privacy, DevTools
-status   : open to new ideas & collaborations
-belief   : "Build tools that think for themselves — then open-source them."
+name      : Lakshmi Sravya Vedantham
+role      : Research Engineer  ·  AI Engineer & Founder (stealth)
+location  : San Jose, California
+interests : EEG and multimodal emotion recognition, sleep staging,
+            video generation and its evaluation, exact sampling,
+            predictive evaluation, coding-agent provenance
+writing   : 57 technical articles on Dev.to
 ```
 
 ---
 
-### `STACK`
+### `PREPRINTS`
 
-<div align="center">
+With Rajasekhar Josyula, 2026.
 
-[![Skills](https://skillicons.dev/icons?i=python,rust,typescript,js,react,nextjs,fastapi,postgres,docker,redis&theme=dark&perline=10)](https://skillicons.dev)
+1. **Attributing Subagent Work in Coding-Agent Protocol Adapters.** Submitted to AGENT 2027. [doi:10.5281/zenodo.23986760](https://doi.org/10.5281/zenodo.23986760)
+2. **The Price of Early Stopping in Exact Sampling.** Preprint. [doi:10.5281/zenodo.23829608](https://doi.org/10.5281/zenodo.23829608)
+3. **When Equivalent Models Receive Different Predictive Scores.** Preprint. [doi:10.5281/zenodo.23829693](https://doi.org/10.5281/zenodo.23829693)
 
-</div>
+---
+
+### `PROJECTS`
+
+| Project | What it is |
+|---|---|
+| [sound-therapy-viz](https://github.com/LakshmiSravyaVedantham/sound-therapy-viz) | Live sound visualizer that predicts the mood of music in the browser; used at a live concert |
+| [gurukul-ai](https://github.com/LakshmiSravyaVedantham/gurukul-ai) | Fully local text-to-video pipeline for kids' educational videos on Apple Silicon |
+| [EEG](https://github.com/LakshmiSravyaVedantham/EEG) | Brain-state classification from EEG signals |
+| [Music_classifier](https://github.com/LakshmiSravyaVedantham/Music_classifier) | Music genre classifier from audio features, with a Gradio app |
 
 ---
 
